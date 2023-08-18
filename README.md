@@ -8,17 +8,21 @@
 
 ### Scheme of work:
 
- 1. User registers in our system. When registering, it specifies the
+ - User registers in our system. When registering, it specifies the
     login, password and name
    
- 2. The user finds a bot in Telegram and subscribes to it. At this stage, you need to create a Telegram bot.
- 3. Generates a token in his personal account and binds this token to his chat. 
+ - The user finds a bot in Telegram and subscribes to it. At this stage, you need to create a Telegram bot.
+ - Generates a token in his personal account and binds this token to his chat. 
     A simple way of implementation: the bot remembers any incoming message from the user as a user token
- 4. The user sends his message to the API. At this moment, the bot immediately duplicates it in Telegram. 
+ - The user sends his message to the API. At this moment, the bot immediately duplicates it in Telegram. 
  The user should only receive his own messages. 
 
-     Message format: {Username}, I got a message from you:
-     {Message} The message should start from a new line.
+**Message format:** 
+
+	{Username}, I got a message from you:
+	{Message} 
+
+*The message should start from a new line.*
 
 ### Functionality:
  - Authorization
