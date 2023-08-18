@@ -1,9 +1,11 @@
 # The Factory bot task
 ## Description
 
-### Using Flask, FastAPI or Django and Django REST Framework, write an API for receiving messages and sending them to a Telegram bot
+#### Using Flask, FastAPI or Django and Django REST Framework, write an API for receiving messages and sending them to a Telegram bot
 #### The functionality of the finished task should look like this:
-			We receive a message through the API, then we send it to the Telegram bot.
+
+> We receive a message through the API, then we send it to the Telegram bot.
+
 ### Scheme of work:
 
  1. User registers in our system. When registering, it specifies the
@@ -16,7 +18,7 @@
  The user should only receive his own messages. 
 
      Message format: {Username}, I got a message from you:
-        {Message} The message should start from a new line.
+     {Message} The message should start from a new line.
 
 ### Functionality:
  - Authorization
