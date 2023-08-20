@@ -24,8 +24,12 @@ clean:
 prune:
 	$(D) system prune -a && $(D) volume prune -a && $(D) builder prune -f
 
+info:
+	$(D) system df
+
 re_api: clean build run_api
 
 re_bot: clean build run_bot
 
 fclean: clean prune
+

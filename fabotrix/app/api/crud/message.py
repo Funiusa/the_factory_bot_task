@@ -12,7 +12,7 @@ from app.api.models.user import User
 
 class CRUDPost(CRUDBase[Message, MessageCreate, MessageUpdate]):
     def create_with_author(
-            self, db: Session, *, obj_in: MessageCreate, author_id: int
+        self, db: Session, *, obj_in: MessageCreate, author_id: int
     ) -> Message:
         obj_in_data = jsonable_encoder(obj_in)
         db_obj = self.model(**obj_in_data, author_id=author_id)
@@ -22,7 +22,7 @@ class CRUDPost(CRUDBase[Message, MessageCreate, MessageUpdate]):
         return db_obj
 
     def get_multi_by_author(
-            self, db: Session, *, author_id: int, skip: int = 0, limit: int = 100
+        self, db: Session, *, author_id: int, skip: int = 0, limit: int = 100
     ) -> List[Message]:
         stmt = (
             select(self.model).filter_by(author_id=author_id).offset(skip).limit(limit)

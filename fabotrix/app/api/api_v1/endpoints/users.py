@@ -13,10 +13,10 @@ router = APIRouter()
 
 @router.get("/", response_model=List[schemas.User])
 async def get_users(
-        skip: int = 0,
-        limit: int = 100,
-        session: Session = Depends(deps.get_session),
-        current_user: models.User = Depends(deps.get_current_active_superuser),
+    skip: int = 0,
+    limit: int = 100,
+    session: Session = Depends(deps.get_session),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> list[schemas.User]:
     users = crud.user.get_multi(db=session, skip=skip, limit=limit)
     return users
@@ -24,10 +24,10 @@ async def get_users(
 
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schemas.User)
 async def create_user_from_admin(
-        *,
-        db: Session = Depends(deps.get_session),
-        user_in: schemas.UserCreate,
-        current_user: models.User = Depends(deps.get_current_active_superuser),
+    *,
+    db: Session = Depends(deps.get_session),
+    user_in: schemas.UserCreate,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     user = crud.user.get_by_email(db, email=user_in.email)
     if user:
@@ -41,12 +41,12 @@ async def create_user_from_admin(
 
 @router.put("/me", status_code=status.HTTP_200_OK, response_model=schemas.User)
 async def update_user_me(
-        *,
-        password: str = Body(None),
-        full_name: str = Body(None),
-        email: str = Body(None),
-        session: Session = Depends(deps.get_session),
-        current_user: models.User = Depends(deps.get_current_active_user),
+    *,
+    password: str = Body(None),
+    full_name: str = Body(None),
+    email: str = Body(None),
+    session: Session = Depends(deps.get_session),
+    current_user: models.User = Depends(deps.get_current_active_user),
 ) -> schemas.User:
     current_user_data = jsonable_encoder(current_user)
     user_in = schemas.UserUpdate(**current_user_data)
@@ -62,19 +62,19 @@ async def update_user_me(
 
 @router.get("/me", status_code=status.HTTP_200_OK, response_model=schemas.User)
 async def retrieve_current_user(
-        session: Session = Depends(deps.get_session),
-        current_user: models.User = Depends(deps.get_current_active_user),
+    session: Session = Depends(deps.get_session),
+    current_user: models.User = Depends(deps.get_current_active_user),
 ) -> schemas.User:
     return current_user
 
 
 @router.post("/open", response_model=schemas.User)
 def create_user_open(
-        *,
-        session: Session = Depends(deps.get_session),
-        email: str = Body(...),
-        username: str = Body(...),
-        password: str = Body(...),
+    *,
+    session: Session = Depends(deps.get_session),
+    email: str = Body(...),
+    username: str = Body(...),
+    password: str = Body(...),
 ) -> Any:
     if not settings.USERS_OPEN_REGISTRATION:
         raise HTTPException(
@@ -94,9 +94,9 @@ def create_user_open(
 
 @router.get("/{user_id}", response_model=schemas.User)
 def get_user_by_id(
-        user_id: int,
-        current_user: models.User = Depends(deps.get_current_active_user),
-        session: Session = Depends(deps.get_session),
+    user_id: int,
+    current_user: models.User = Depends(deps.get_current_active_user),
+    session: Session = Depends(deps.get_session),
 ) -> schemas.User:
     user = crud.user.get(db=session, id=user_id)
     if current_user == user:
@@ -111,10 +111,10 @@ def get_user_by_id(
 
 @router.put("/{user_id}", response_model=schemas.User)
 def update_user_by_id(
-        user_id: int,
-        user_in: schemas.UserUpdate,
-        current_user: models.User = Depends(deps.get_current_active_user),
-        session: Session = Depends(deps.get_session),
+    user_id: int,
+    user_in: schemas.UserUpdate,
+    current_user: models.User = Depends(deps.get_current_active_user),
+    session: Session = Depends(deps.get_session),
 ) -> schemas.User:
     user = crud.user.get(db=session, id=user_id)
     if not user:
@@ -127,9 +127,9 @@ def update_user_by_id(
 
 @router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
 def remove_user(
-        user_id: int,
-        session: Session = Depends(deps.get_session),
-        current_user: models.User = Depends(deps.get_current_active_superuser),
+    user_id: int,
+    session: Session = Depends(deps.get_session),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> None:
     user = crud.user.get(db=session, id=user_id)
     if not user:
@@ -139,6 +139,6 @@ def remove_user(
     if current_user.id == user_id:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
-            detail="A Dutchman must always have a captain"
+            detail="A Dutchman must always have a captain",
         )
     crud.user.remove(db=session, id=user_id)

@@ -27,8 +27,8 @@ class Settings(BaseSettings):
     BOT_TOKEN: str = os.environ["BOT_TOKEN"]
 
     DB_NAME: str = os.getenv("DATABASE_NAME")
-    DB_USER: str = os.getenv("POSTGRES_USER")
-    DB_PWD: str = os.getenv("POSTGRES_PASSWORD")
+    DB_USER: str = os.getenv("DATABASE_USER")
+    DB_PWD: str = os.getenv("DATABASE_PASSWORD")
     DB_HOST: str = os.getenv("DATABASE_HOST")
     DB_PORT: int = os.getenv("DATABASE_PORT")
     DB_ADR: str = os.getenv("DATABASE_ADAPTER")
@@ -59,6 +59,10 @@ class Settings(BaseSettings):
     SECRET_KEY: str = os.getenv("SECRET_KEY")
     JWT_ALGORITHM: str = os.getenv("JWD_ALG")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
+
+    # Celery
+    BROKER: str = os.getenv("CELERY_BROKER_URL")
+    CELERY_RESULT_BACKEND: str = os.getenv("CELERY_BROKER_URL")
 
     class Config:
         case_sensitive = True
