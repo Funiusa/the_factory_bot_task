@@ -1,16 +1,9 @@
 version: '3.7'
 
-
-x-db-config: &db-config
-  DATABASE_NAME: ${DATABASE_NAME}
-  DATABASE_HOST: ${DATABASE_HOST}
-  DATABASE_PORT: ${DATABASE_PORT}
-  DATABASE_USER: ${POSTGRES_USER}
-  DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
-
 services:
   api:
     build: .
+    container_name: api
     restart: unless-stopped
     ports:
       - ${API_PORT}:${API_PORT}
@@ -28,6 +21,7 @@ services:
 
   bot:
     build: .
+    container_name: bot
     restart: unless-stopped
     depends_on:
       - db
@@ -42,15 +36,57 @@ services:
       - .env
     command: python run_bot.py
 
+  celery:
+    build: .
+    container_name: celery
+    restart: unless-stopped
+    networks:
+      - mynetwork
+    env_file:
+      - .env
+    volumes:
+      - ./fabotrix:/app
+    depends_on:
+      - redis
+      - flower
+      - bot
+    command: celery -A app.core.celery:celery_app worker -l info
+
+  redis:
+    image: redis:6-alpine
+    container_name: redis
+    restart: unless-stopped
+    networks:
+      - mynetwork
+    ports:
+    - "6379:6379"
+
+  flower:
+    build: .
+    container_name: flower
+    working_dir: /app
+    env_file:
+      - .env
+    volumes:
+      - ./fabotrix:/app
+    networks:
+      - mynetwork
+    ports:
+      - "5555:5555"
+    depends_on:
+      - redis
+    command: celery -A app.core.celery:celery_app --broker=redis://redis:6379/0 flower --port=5555
+
   db:
     image: postgres:15.2-alpine
+    container_name: db
     ports:
       - ${DATABASE_PORT}:${DATABASE_PORT}
     networks:
       - mynetwork
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
 
   pgadmin:
     container_name: pgadmin

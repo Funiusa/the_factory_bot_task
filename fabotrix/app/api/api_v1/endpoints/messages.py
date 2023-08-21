@@ -1,10 +1,10 @@
 from typing import List
 from sqlalchemy.orm import Session
-from fastapi import status, Depends, BackgroundTasks
+from fastapi import status, Depends
 from fastapi.routing import APIRouter
 from fastapi.exceptions import HTTPException
 from app.api import deps, schemas, crud, models
-from app.bot.handlers.message_handler import send_message_to_telegram
+from app.core.celery import send_message_to_telegram
 
 router = APIRouter()
 
@@ -31,7 +31,6 @@ async def create_message(
     message: str,
     session: Session = Depends(deps.get_session),
     current_user: models.User = Depends(deps.get_current_active_user),
-    background: BackgroundTasks,
 ) -> schemas.Message:
     telegram_id = current_user.telegram_id
     if not telegram_id:
@@ -43,12 +42,12 @@ async def create_message(
     message = crud.message.create_with_author(
         db=session, obj_in=message_in, author_id=current_user.id
     )
-    background.add_task(
-        send_message_to_telegram,
+    send_message_to_telegram.delay(
         username=current_user.username,
         telegram_id=current_user.telegram_id,
         body=message.body,
     )
+
     return message
 
 

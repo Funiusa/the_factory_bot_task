@@ -13,7 +13,7 @@ run_bot:
 	$(DC_RUN) bot $(ARGS)
 
 upd:
-	$(DC_RUN) -d up $(ARGS)
+	$(DC) up -d $(ARGS)
 
 build:
 	$(DC) build
@@ -22,7 +22,7 @@ clean:
 	$(DC) down
 
 prune:
-	$(D) system prune -a && $(D) volume prune -a && $(D) builder prune -f
+	$(D) system prune -a && $(D) network prune && $(D) volume prune -a && $(D) builder prune -f
 
 info:
 	$(D) system df
