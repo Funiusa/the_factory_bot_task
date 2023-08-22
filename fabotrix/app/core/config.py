@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     OPEN_API_URL: str = f"{API_V1_STR}/openapi.json"
 
     BOT_TOKEN: str = os.environ["BOT_TOKEN"]
+    BOT_LINK: str = os.environ["BOT_LINK"]
 
     DB_NAME: str = os.getenv("DATABASE_NAME")
     DB_USER: str = os.getenv("DATABASE_USER")
@@ -63,6 +64,15 @@ class Settings(BaseSettings):
     # Celery
     BROKER: str = os.getenv("CELERY_BROKER_URL")
     CELERY_RESULT_BACKEND: str = os.getenv("CELERY_BROKER_URL")
+
+    # SMTP
+    SMTP_HOST: str = os.getenv("SMTP_HOST")
+    SMTP_PORT: int = os.getenv("SMTP_PORT")
+    SMTP_EMAIL_FROM: str = os.getenv("SMTP_EMAIL_FROM")
+    SMTP_EMAIL_FROM_PASSWD: str = os.getenv("SMTP_EMAIL_FROM_PASSWD")
+    SMTP_TLS: bool = os.getenv("SMTP_TLS")
+
+    TEMPLATES_DIR: str = "/app/templates"
 
     class Config:
         case_sensitive = True

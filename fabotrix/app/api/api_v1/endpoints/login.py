@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from app.api import schemas
 from app.api.deps import get_session
 from app.core.config import settings
-from app.core import security
+from app.core import security, celery
 from app.api import crud
 
 router = APIRouter()
@@ -32,5 +32,8 @@ async def login_access_token(
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = await security.create_access_token(
         subject=user.id, expires_delta=access_token_expires
+    )
+    celery.send_registration_email.delay(
+        username=user.username, email_to=user.email, token=access_token
     )
     return {"token_type": "bearer", "access_token": access_token}
