@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 from app.api import schemas
 from app.api.deps import get_session
 from app.core.config import settings
-from app.core import security
+from app.core import security, celery
 from app.api import crud
 
 router = APIRouter()

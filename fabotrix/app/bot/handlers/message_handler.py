@@ -1,5 +1,5 @@
 from aiogram import types
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 
 from app.bot.dispatcher import dp, bot
 from app.api import crud, schemas, deps
@@ -21,9 +21,10 @@ async def all_messages(message: types.Message) -> None:
         await message.answer("You need to send your access_token here before")
 
 
-async def send_message_to_telegram(username: str, telegram_id: int, body: str):
+async def send_telegram_message(username: str, telegram_id: int, body: str):
     message = f"{username.capitalize()}, I got a message from you:\n\n{body}"
     await bot.send_message(chat_id=telegram_id, text=message)
+    return status.HTTP_200_OK
 
 
 @dp.message_handler()
@@ -39,4 +40,4 @@ async def messages_from_api(message: types.Message):
             crud.user.update_with_telegram_id(db=db, db_obj=user, obj_in=user_in)
         await message.answer(text=f"Got your token, {user.username.capitalize()}!")
     except HTTPException:
-        await message.answer(text="Token is not valid")
+        pass
