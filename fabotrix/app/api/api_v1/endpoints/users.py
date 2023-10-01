@@ -72,9 +72,9 @@ async def retrieve_current_user(
 def create_user_open(
     *,
     session: Session = Depends(deps.get_session),
-    email: str = Body(...),
-    username: str = Body(...),
-    password: str = Body(...),
+    email: str,
+    username: str,
+    password: str,
 ) -> Any:
     if not settings.USERS_OPEN_REGISTRATION:
         raise HTTPException(

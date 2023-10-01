@@ -25,8 +25,8 @@ services:
     container_name: bot
     restart: unless-stopped
     depends_on:
-      - api
       - db
+      - api
     networks:
       - mynetwork
     volumes:

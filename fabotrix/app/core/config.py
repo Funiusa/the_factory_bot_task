@@ -1,4 +1,5 @@
 import os
+import requests
 from typing import List
 
 from pydantic import BaseSettings
@@ -9,10 +10,23 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+def get_network_ip():
+    try:
+        response = requests.get("https://api64.ipify.org?format=json")
+        ip_data = response.json()
+        public_ip = ip_data["ip"]
+
+        return public_ip
+    except requests.RequestException as e:
+        print(f"Error: {e}")
+        return None
+
+
 class Settings(BaseSettings):
     # Main
     PROJECT_NAME: str = os.getenv("PROJECT_NAME")
     PROJECT_DSC: str = os.getenv("PROJECT_DESCRIPTION")
+    HOST_IP: str = get_network_ip()
 
     API_HOST: str = os.getenv("API_HOST")
     API_PORT: int = os.getenv("API_PORT")
