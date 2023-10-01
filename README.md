@@ -33,3 +33,42 @@
  - Getting a list of all messages: date of sending, message (Only after authorization)
  
 *The functionality above should work via the REST API.*
+
+## Interaction with the project :
+
+1) Clone the project
+2) Checkout to develop branch
+3) Fill .env according to the config.py variables
+4) Use the commands below:
+
+*Run project in regular mode*
+
+	make up
+	
+*Run  project in detached mode*
+
+	make upd
+	
+*Run a separate bot with API and other services in the background*
+
+	make run_bot [ARGS=bash]
+	
+*Run a separate API with bot and other services in the background*
+
+	make run_api [ARGS=bash]
+	
+*For rebuild service API*
+
+	make re_api
+	
+*For rebuild service API*
+
+	make re_bot
+
+*Stop all docker containers*
+
+	make clean
+
+*Stop all docker containers, remove and clean memory*
+
+	make fclean
