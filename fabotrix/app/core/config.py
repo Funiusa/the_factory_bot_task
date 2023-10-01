@@ -25,7 +25,6 @@ class Settings(BaseSettings):
     OPEN_API_URL: str = f"{API_V1_STR}/openapi.json"
 
     BOT_TOKEN: str = os.environ["BOT_TOKEN"]
-    # BOT_LINK: str = os.environ["BOT_LINK"]
 
     DB_NAME: str = os.getenv("DATABASE_NAME")
     DB_USER: str = os.getenv("DATABASE_USER")
@@ -58,7 +57,7 @@ class Settings(BaseSettings):
 
     # Security
     SECRET_KEY: str = os.getenv("SECRET_KEY")
-    JWT_ALGORITHM: str = os.getenv("JWD_ALG")
+    JWT_ALGORITHM: str = os.getenv("JWT_ALG")
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8
 
     # Celery

@@ -37,7 +37,8 @@
 ## Interaction with the project :
 
 1) Clone the project
-2) Checkout to background branch
+2) Checkout to develop branch
+3) Fill .env according to the config.py variables
 3) Use the commands below:
 
 Run project in regular mode
