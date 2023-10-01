@@ -1,11 +1,6 @@
-import smtplib
-
 from celery import Celery
-
 from app.core.config import settings
-
 from app.bot.handlers.message_handler import send_telegram_message
-from app.core.utils import send_new_user_email
 import asyncio
 
 celery_app = Celery(__name__)
@@ -20,9 +15,3 @@ def send_message_to_telegram(username: str, telegram_id: int, body: str):
     coro = send_telegram_message(username, telegram_id, body)
     message = loop.run_until_complete(coro)
     return {"status": message}
-
-
-@celery_app.task
-def send_registration_email(username: str, email_to: str, token: str):
-    send_new_user_email(username, email_to, token)
-    return {"status": "OK"}

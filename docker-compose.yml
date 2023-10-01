@@ -11,6 +11,7 @@ services:
       - mynetwork
     depends_on:
       - pgadmin
+      - celery
     env_file:
       - .env
     volumes:
@@ -24,8 +25,8 @@ services:
     container_name: bot
     restart: unless-stopped
     depends_on:
-      - db
       - api
+      - db
     networks:
       - mynetwork
     volumes:
@@ -49,7 +50,6 @@ services:
     depends_on:
       - redis
       - flower
-      - bot
     command: celery -A app.core.celery:celery_app worker -l info
 
   redis:

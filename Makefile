@@ -6,14 +6,14 @@ DC_RUN = docker-compose run --rm
 up:
 	$(DC) up
 
+upd:
+	$(DC) up -d $(ARGS)
+
 run_api:
 	$(DC_RUN) -p 8000:8000 api $(ARGS)
 
 run_bot:
 	$(DC_RUN) bot $(ARGS)
-
-upd:
-	$(DC) up -d $(ARGS)
 
 build:
 	$(DC) build

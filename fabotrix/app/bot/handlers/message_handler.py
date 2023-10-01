@@ -40,4 +40,4 @@ async def messages_from_api(message: types.Message):
             crud.user.update_with_telegram_id(db=db, db_obj=user, obj_in=user_in)
         await message.answer(text=f"Got your token, {user.username.capitalize()}!")
     except HTTPException:
-        await message.answer(text="Token is not valid")
+        pass

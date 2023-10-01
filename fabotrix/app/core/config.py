@@ -25,7 +25,7 @@ class Settings(BaseSettings):
     OPEN_API_URL: str = f"{API_V1_STR}/openapi.json"
 
     BOT_TOKEN: str = os.environ["BOT_TOKEN"]
-    BOT_LINK: str = os.environ["BOT_LINK"]
+    # BOT_LINK: str = os.environ["BOT_LINK"]
 
     DB_NAME: str = os.getenv("DATABASE_NAME")
     DB_USER: str = os.getenv("DATABASE_USER")
