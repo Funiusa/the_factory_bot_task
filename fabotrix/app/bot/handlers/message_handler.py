@@ -38,17 +38,17 @@ async def all_messages(message: types.Message) -> None:
     user = crud.user.get_by_telegram_id(db, telegram_id=telegram_id)
     if user:
         user_msgs = crud.message.get_multi_by_author(db, author_id=user.id)
-        msgs = "\n\n".join([msg.body for msg in user_msgs])
+        msgs = "\n".join([msg.body for msg in user_msgs])
         if not msgs:
             await message.answer(text="No messages yet")
         else:
-            await message.answer(text=f"Messages:\n\n{msgs}")
+            await message.answer(text=f"Messages:\n{msgs}")
     else:
         await message.answer("You need to send your access_token here before")
 
 
 async def send_telegram_message(username: str, telegram_id: int, body: str):
-    message = f"{username.capitalize()}, I got a message from you:\n\n{body}"
+    message = f"{username.capitalize()}, I got a message from you:\n{body}"
     await bot.send_message(chat_id=telegram_id, text=message)
     return status.HTTP_200_OK
 
